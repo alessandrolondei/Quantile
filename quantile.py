@@ -7,6 +7,7 @@ Created on Tue Mar  9 15:56:41 2021
 """
 
 import numpy as np
+from collections.abc import Iterable
 
 class Quantile(object):
     
@@ -247,14 +248,15 @@ class Quantile(object):
         Returns:
             centers (float or array): The related center(s)
         '''
-        if isinstance(binvalue, (int, float)):
-            return self.center[binvalue]
-        else:
+        if isinstance(binvalue, Iterable):
             binvalue = np.array(binvalue)
-            centers = np.zeros_like(binvalue).astype(int)
+            centers = np.zeros_like(binvalue).astype(float)
             for k, y in enumerate(binvalue):
-                centers[k] = self.center[y]
+                centers[k] = self.bin_centers[y]
             return centers
+        else:
+            return self.bin_centers[binvalue]
+
 
 
         
